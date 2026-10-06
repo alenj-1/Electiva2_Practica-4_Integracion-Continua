@@ -1,0 +1,30 @@
+name: Alerta de notificación
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  hola-mundo:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Ejecutar Hola Mundo
+        run: node index.js
+
+      - name: Enviar notificación a ntfy
+        run: |
+          curl \
+            -H "Title: Hola Mundo en JavaScript" \
+            -H "Priority: default" \
+            -d "Integración continua ejecutada correctamente en la rama main" \
+            https://ntfy.sh/devops-itla
